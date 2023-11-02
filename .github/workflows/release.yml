@@ -22,7 +22,7 @@ jobs:
                   echo '{
                     "name": "NomNomSimulator", 
                     "version": "1.0.0", 
-                    "description": "Temporary package.json for GitHub Actions"
+                    "description": "Temporary package.json for GitHub Actions",
                     "scripts": {
                       "build": "npm run build"
                     }
