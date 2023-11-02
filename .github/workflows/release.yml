@@ -1,0 +1,43 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and package
+        run: npm run build
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          files: |
+            dist/*
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Release
+        id: upload_release
+        uses: actions/upload-release-asset@v1
+        with:
+          asset_path: dist/*
+          asset_name: my-app-v${{ steps.create_release.outputs.tag }}.zip
+          asset_content_type: application/zip
+          release_id: ${{ steps.create_release.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}

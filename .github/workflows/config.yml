@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a Security Issue
+    url: /security
+  - name: Report a Bug
+    url: /bug_report
+  - name: Request a New Feature
+    url: /feature_request
+  - name: Provide Feedback
+    url: /feedback
+  - name: Ask a Question
+    url: /questions

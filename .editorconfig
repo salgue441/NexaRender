@@ -1,0 +1,26 @@
+# Defines and mantains consistent coding styles for different code editors and IDEs
+
+# Top-most EditorConfig file
+root = true
+
+# Unix-style line endings
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Indentation settings for all files
+[*.md]
+indent_style = space
+indent_size = 2
+
+# YAML files
+[*.yaml]
+indent_style = space
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
