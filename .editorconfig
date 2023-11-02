@@ -5,22 +5,37 @@ root = true
 
 # Unix-style line endings
 [*]
-end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
 insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+
+# Unity's YAML-based scene and prefab files
+[*.unity, *.prefab]
+indent_style = space
+indent_size = 2
 
 # Indentation settings for all files
 [*.md]
 indent_style = space
 indent_size = 2
 
-# YAML files
-[*.yaml]
-indent_style = space
-indent_size = 2
+# CSharp files
+[*.cs]
+max_line_length = 100
 
-# JSON files
-[*.json]
+# Python files
+[*.py]
+max_line_length = 120
+
+# Shader files
+[*.shader]
+indent_style = space
+indent_size = 4
+
+# YAML configs
+[*.yml, *.yaml]
 indent_style = space
 indent_size = 2

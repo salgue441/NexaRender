@@ -1,4 +1,4 @@
-# Contributing to [Repository Name]
+# Contributing to NomNomSimulator
 
 ## Welcome
 
@@ -8,7 +8,13 @@ Thank you for your interest in contributing to [Repository Name]. We welcome all
 
 ### Prerequisites
 
-- [Name of Prerequisite](https://link-to-prerequisite-website)
+- [Unity Engine](https://unity.com/) version 2022.3.12f1
+- [C#](https://docs.microsoft.com/en-us/dotnet/csharp/) version 9.0
+- [Python](https://www.python.org/) version 3.11.0
+- [NumPy](https://numpy.org/) version 1.21.3
+- [MESA](https://www.mesa3d.org/) version 21.2.3
+- [Pandas](https://pandas.pydata.org/) version 1.3.4
+- [Matplotlib](https://matplotlib.org/) version 3.4.3
 
 ### Installation
 

@@ -1,0 +1,41 @@
+# Unity specific
+NomNomSimulator/[Aa]ssets/
+NomNomSimulator/[Ll]ibrary/
+NomNomSimulator/[Tt]emp/
+NomNomSimulator/[Oo]bj/
+NomNomSimulator/[Bb]uild/
+NomNomSimulator/[Bb]uilds/
+NomNomSimulator/[Ll]og/
+NomNomSimulator/[Uu]ser[Ss]ettings/
+
+# Python specific
+api/__pycache__/
+api/*.pyc
+api/*.pyo
+api/*.egg-info/
+api/*.egg
+api/*.log
+api/*.sql
+api/*.sqlite
+
+# Visual Studio specific
+*/*.csproj
+*/*.unityproj
+*/*.sln
+*/*.suo
+*/*.tmp
+*/*.user
+*/*.userprefs
+*/*.log
+*/*.pidb
+*/*.old
+*/*.bak
+*/*.swp
+*/*.vscode
+*/*.vs
+
+# OS-specific
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db

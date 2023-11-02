@@ -1,0 +1,40 @@
+# Unity specific
+*.meta text merge=unityyamlmerge eol=lf
+*.unity text merge=unityyamlmerge eol=lf
+*.prefab text merge=unityyamlmerge eol=lf
+*.asset text merge=unityyamlmerge eol=lf
+*.anim text merge=unityyamlmerge eol=lf
+
+# Audio files
+*.wav binary
+*.mp3 binary
+*.ogg binary
+
+# 3D model formats
+*.fbx binary
+*.3ds binary
+*.dae binary
+
+# Textures and materials
+*.mat text merge=unityyamlmerge eol=lf
+*.shader text eol=lf
+
+# Fonts
+*.ttf binary
+*.otf binary
+
+# Python specific
+*.py text diff=python eol=lf
+*.pyc binary
+*.pyo binary
+
+# Configuration and environment
+*.cfg text eol=lf
+*.ini text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Ensure LF line endings to local files
+* text=auto eol=lf
