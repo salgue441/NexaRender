@@ -1,0 +1,33 @@
+name: Acquire activiation file
+on:
+    workflow_dispatch: {}
+
+jobs:
+    activation:
+        name: Acquire .ulf file
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set up a Node.js environment
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18
+
+            - name: Install node package, `unity-license-activate`
+              run: npm install -g unity-license-activate
+
+            - name: Activate the license
+              run: |
+                  unity-license-activate "${{ secrets.UNITY_EMAIL }}" "${{ secrets.UNITY_PASSWORD }}" "${{ needs.request_alf.outputs.alf }}"
+
+            - name: Read ulf
+              id: ulfRead
+              uses: juliangruber/read-file-action@v1.1.4
+              with:
+                  path: ${{ env.ULF_FILE }}
+
+            - name: Updates secret UNITY_LICENSE
+              uses: hmanzur/actions-set-secret@v2.0.0
+              with:
+                  name: UNITY_LICENSE
+                  value: ${{ steps.ulfRead.outputs.content }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
