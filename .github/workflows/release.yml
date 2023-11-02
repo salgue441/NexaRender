@@ -20,7 +20,7 @@ jobs:
             - name: Build Unity project
               uses: webbertakken/unity-builder@v2.0-alpha-6
               with:
-                  unityVersion: 2022.3.12f1
+                  unityVersion: 2021.1.0f1  
                   targetPlatform: ${{ matrix.targetPlatform }}
 
             # Python Build
