@@ -14,8 +14,19 @@ jobs:
             - name: List directory contents
               run: ls -al
 
-            - name: Show path
-              run: pwd
+            - name: Move to directory
+              run: cd /home/runner/work/NomNomSimulator/NomNomSimulator
+
+            - name: Create package.json
+              run: |
+                  echo '{
+                    "name": "NomNomSimulator", 
+                    "version": "1.0.0", 
+                    "description": "Temporary package.json for GitHub Actions"
+                    "scripts": {
+                      "build": "npm run build"
+                    }
+                  }' > package.json
 
             - name: Set up Node.js
               uses: actions/setup-node@v2
