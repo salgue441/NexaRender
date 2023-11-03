@@ -1,33 +1,45 @@
-name: Acquire activiation file
+name: Build and Release Project
+
 on:
+    push:
+        branches:
+            - main
+
     workflow_dispatch: {}
 
 jobs:
     activation:
-        name: Acquire .ulf file
+        name: Acquire Unity License
         runs-on: ubuntu-latest
+        outputs:
+            unity_license: ${{ steps.ulfRead.outputs.content }}
+
         steps:
-            - name: Set up a Node.js environment
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Setup a Node.JS environment
               uses: actions/setup-node@v2
               with:
-                  node-version: 18
+                  node-version: "18.0.0"
 
-            - name: Install node package, `unity-license-activate`
+            - name: Install node package `unity-license-activate`
               run: npm install -g unity-license-activate
 
-            - name: Activate the license
+            - name: Activate Unity License
               run: |
-                  unity-license-activate "${{ secrets.UNITY_EMAIL }}" "${{ secrets.UNITY_PASSWORD }}" "${{ needs.request_alf.outputs.alf }}"
+                  unity-license-activate "${{ secrets.UNITY_EMAIL }}" "${{ secrets.UNITY_PASSWORD }}"
+              env:
+                  UNITY_LICENSE_FILE: ${{ github.workspace}} /Unity_lic.ulf
 
-            - name: Read ulf
+            - name: Read Unity License File
               id: ulfRead
               uses: juliangruber/read-file-action@v1.1.4
               with:
-                  path: ${{ env.ULF_FILE }}
+                  path: ${{ github.workspace}} /Unity_lic.ulf
 
-            - name: Updates secret UNITY_LICENSE
-              uses: hmanzur/actions-set-secret@v2.0.0
+            - name: Upload Unity License File
+              uses: actions/upload-artifact@v2
               with:
-                  name: UNITY_LICENSE
-                  value: ${{ steps.ulfRead.outputs.content }}
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  name: Unity License File
+                  path: ${{ github.workspace}} /Unity_lic.ulf
