@@ -29,8 +29,18 @@ jobs:
             - name: Activate Unity License
               run: |
                   unity-license-activate "${{ secrets.UNITY_EMAIL }}" "${{ secrets.UNITY_PASSWORD }}"
+
               env:
                   UNITY_LICENSE_FILE: ${{ github.workspace}}/Unity_lic.ulf
+
+            - name: Check if the license file exists
+              run: |
+                  if [ -f "${{github.workspace}}"Unity_lic.ulf ]; then
+                    echo "File exists"
+                  else
+                    echo "File does not exist"
+                    exit 1
+                  fi
 
             - name: Read Unity License File
               id: ulfRead
