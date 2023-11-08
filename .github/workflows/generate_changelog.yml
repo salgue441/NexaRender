@@ -17,12 +17,12 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  configuration: "../configuration_file.yml"
+                  configuration: ".github/configuration_file.yml"
 
             - name: Commit Changelog
               run: |
                   git config --global user.name "GitHub Action"
                   git config --global user.email "actions@github.com"
-                  git add CHANGELOG.md
-                  git commit -m "chore(release): update CHANGELOG.md [skip ci]"
+                  git add CHANGELOG.md || echo "No changes in CHANGELOG.md"
+                  git diff --staged --quiet || git commit -m "chore(release): update CHANGELOG.md [skip ci]" -m "[skip ci]"
                   git push origin HEAD:main
