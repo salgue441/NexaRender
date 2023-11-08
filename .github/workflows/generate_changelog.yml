@@ -11,6 +11,11 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v2
+              with: 
+                  fetch-depth: 0
+
+            - name: List tags
+              run: git tag -l
 
             - name: Generate Changelog
               uses: mikepenz/release-changelog-builder-action@v1.0.0
