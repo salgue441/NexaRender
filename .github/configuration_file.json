@@ -1,0 +1,62 @@
+{
+    "categories": [
+        {
+            "title": "🚀 Features",
+            "labels": ["feature", "enhancement"]
+        },
+        {
+            "title": "🐛 Bug Fixes",
+            "labels": ["bug", "bugfix", "fix"]
+        },
+        {
+            "title": "🧰 Maintenance",
+            "labels": ["maintenance", "refactor", "chore"]
+        },
+        {
+            "title": "📖 Documentation",
+            "labels": ["documentation"]
+        },
+        {
+            "title": "🧪 Tests",
+            "labels": ["test", "tests"]
+        }
+    ],
+    "excluded_labels": ["skip-changelog", "no-changelog", "internal"],
+    "sort": "desc",
+    "include_author": true,
+    "include_labels": true,
+    "include_hash": false,
+    "group_by": {
+        "Enhancements:": ["feature", "enhancement"],
+        "Bug Fixes:": ["bug", "bugfix", "fix"],
+        "Maintenance:": ["maintenance", "refactor", "chore"],
+        "Documentation:": ["documentation"],
+        "Tests:": ["test", "tests"]
+    },
+    "template": "## [{{ version }} - {{ date }}]\n{{#each categories}}\n### {{ title }}\n{{#each commits}}\n - {{message}} ([@{{author}}]{{author_url}})\n{{/each}}\n{{/each}}",
+    "version_resolver": {
+        "major": {
+            "labels": ["breaking", "major"],
+            "regex": "^(?:major|breaking)"
+        },
+        "minor": {
+            "labels": ["feature", "enhancement", "minor"],
+            "regex": "^(?:feature|enhancement|minor)"
+        },
+        "patch": {
+            "labels": [
+                "bug",
+                "bugfix",
+                "fix",
+                "maintenance",
+                "refactor",
+                "chore",
+                "documentation",
+                "test",
+                "tests",
+                "patch"
+            ],
+            "regex": "^(?:bug|bugfix|fix|maintenance|refactor|chore|documentation|test|tests|patch)"
+        }
+    }
+}
