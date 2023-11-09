@@ -1,13 +1,3 @@
-# Unity specific
-NomNomSimulator/[Aa]ssets/
-NomNomSimulator/[Ll]ibrary/
-NomNomSimulator/[Tt]emp/
-NomNomSimulator/[Oo]bj/
-NomNomSimulator/[Bb]uild/
-NomNomSimulator/[Bb]uilds/
-NomNomSimulator/[Ll]og/
-NomNomSimulator/[Uu]ser[Ss]ettings/
-
 # Python specific
 api/__pycache__/
 api/*.pyc
