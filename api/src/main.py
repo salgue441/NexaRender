@@ -1,12 +1,5 @@
-from mesa import Agent, Model
-from mesa.time import SimultaneousActivation
-from mesa.space import SingleGrid
-from mesa.datacollection import DataCollector
-import numpy as np
-
-from Collector.py import Collector
-from Explorer.py import Explorer
-from Model.py import NomNomModel
+from mesa import Model
+from Model import NomNomModel
 
 NUM_AGENTS = 5
 MAX_FOOD = 47
@@ -26,8 +19,8 @@ def run_simulation() -> Model:
     for _ in range(ITERATIONS):
         model.step()
         if model.storaged_food == MAX_FOOD:
-            print(f"Simulation finished in {model.schedule.steps} steps")
             break
+    print(f"Simulation finished in {model.schedule.steps} steps")
     return model
 
 

@@ -1,3 +1,5 @@
+from mesa import Agent, Model
+
 class Explorer(Agent):
     RANDOM_SEED = 12345
 
@@ -46,26 +48,20 @@ class Explorer(Agent):
 
     def find_food(self) -> None:
         """
-        Look for food in the neighboring cells and mark it in the known food layer.
+        Look for food in in the current cell and mark it in the known food layer.
         """
-        neighbors = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=True
-        )
-        for x, y in neighbors:
-            if self.model.food_layer[x][y] > 0:
-                self.model.known_food_layer[x][y] = 1
+
+        (x, y) = self.pos
+        self.model.known_food_layer[x][y] = self.model.food_layer[x][y]
 
     def find_storage(self) -> None:
         """
-        Look for storage in the neighboring cells and mark it in the known storage layer.
+        Look for storage in the current cell and mark it in the known storage layer.
         """
 
-        neighbors = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=True
-        )
-        for x, y in neighbors:
-            if self.model.storage_location == (x, y):
-                self.model.known_storage_location = (x, y)
+        (x, y) = self.pos
+        if self.model.storage_location == (x, y):
+            self.model.known_storage_location = (x, y)
 
     def step(self) -> None:
         """
