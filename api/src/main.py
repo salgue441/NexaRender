@@ -1,5 +1,6 @@
 from mesa import Model
 from Model import NomNomModel
+import pandas as pd
 
 NUM_AGENTS = 5
 MAX_FOOD = 47
@@ -32,9 +33,20 @@ def get_data(model):
     food_positions = model.init_food_layer
     steps = model.schedule.steps
 
+    print(agent_pos)
+
+    # Cast agent_pos to DataFrame type
+    agent_pos_list = []
+
+    for i in range(len(agent_pos)):
+        agent_pos_list.append(agent_pos[i])
+
+    # Cast food_positions to list type
+    food_positions = food_positions.tolist()
+
     return {
         "storage_location": storage_location,
-        "agent_pos": agent_pos,
+        "agent_pos": agent_pos_list,
         "food_positions": food_positions,
         "steps": steps
     }
@@ -42,7 +54,7 @@ def get_data(model):
 def main():
     model = run_simulation()
     data = get_data(model)
-    print(data)
+    return data
 
 if __name__ == "__main__":
     main()

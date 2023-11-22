@@ -3,6 +3,8 @@ import logging
 import json
 import argparse
 
+from main import main
+
 
 class Server(BaseHTTPRequestHandler):
     """
@@ -27,8 +29,13 @@ class Server(BaseHTTPRequestHandler):
         GET request handler.
         """
 
+        data = main()
+
+        # convert data to json
+        json_data = json.dumps(data)
+
         self._set_response()
-        self.wfile.write(f"GET request for {self.path}".encode("utf-8"))
+        self.wfile.write(json_data.encode("utf-8"))
 
     def do_POST(self):
         """

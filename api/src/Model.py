@@ -143,4 +143,10 @@ class NomNomModel(Model):
             self.spawn_food(self.num_food)
 
     def get_positions(model: Model):
-        return np.asarray([agent.pos for agent in model.schedule.agents])
+        agent_positions = {}
+
+        for agent in model.schedule.agents:
+            key = agent.unique_id[0] + str(agent.unique_id[1])
+            agent_positions[key] = [agent.pos]
+
+        return agent_positions
