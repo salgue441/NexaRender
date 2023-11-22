@@ -31,3 +31,6 @@ api/*.sqlite
 **/._*
 **/Thumbs.db
 
+# Pycache
+__pycache__/
+
