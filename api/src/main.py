@@ -1,12 +1,6 @@
-from mesa import Agent, Model
-from mesa.time import SimultaneousActivation
-from mesa.space import SingleGrid
-from mesa.datacollection import DataCollector
-import numpy as np
-
-from Collector.py import Collector
-from Explorer.py import Explorer
-from Model.py import NomNomModel
+from mesa import Model
+from Model import NomNomModel
+import pandas as pd
 
 NUM_AGENTS = 5
 MAX_FOOD = 47
@@ -26,30 +20,54 @@ def run_simulation() -> Model:
     for _ in range(ITERATIONS):
         model.step()
         if model.storaged_food == MAX_FOOD:
-            print(f"Simulation finished in {model.schedule.steps} steps")
             break
+    print(f"Simulation finished in {model.schedule.steps} steps")
     return model
 
 
 def get_data(model):
     all_positions = model.datacollector.get_model_vars_dataframe()
 
-    storage_location = model.storage_location
+    storage_location = {
+        "x": model.storage_location[0],
+        "y": model.storage_location[1]
+    }
     agent_pos = all_positions["Agent Positions"]
     food_positions = model.init_food_layer
     steps = model.schedule.steps
 
+    print(agent_pos)
+
+    # Cast agent_pos to DataFrame type
+    agent_pos_list = []
+
+    for i in range(len(agent_pos)):
+        agent_pos_list.append({
+            "step": i,
+            "positions": agent_pos[i]
+        })
+
+    # Cast food_positions to list type
+    food_positions_list = []
+    for i in range(len(food_positions)):
+        for j in range(len(food_positions[i])):
+            food_positions_list.append({
+                "x": i,
+                "y": j,
+                "value": int(food_positions[i][j])
+            })
+
     return {
         "storage_location": storage_location,
-        "agent_pos": agent_pos,
-        "food_positions": food_positions,
+        "agent_positions": agent_pos_list,
+        "food_positions": food_positions_list,
         "steps": steps
     }
 
 def main():
     model = run_simulation()
     data = get_data(model)
-    print(data)
+    return data
 
 if __name__ == "__main__":
     main()

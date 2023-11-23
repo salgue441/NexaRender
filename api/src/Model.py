@@ -1,3 +1,12 @@
+from mesa import Agent, Model
+from mesa.time import SimultaneousActivation
+from mesa.space import SingleGrid
+from mesa.datacollection import DataCollector
+import numpy as np
+
+from Explorer import Explorer
+from Collector import Collector
+
 class NomNomModel(Model):
     RANDOM_SEED = 12345
 
@@ -30,7 +39,7 @@ class NomNomModel(Model):
                 "Food": lambda m: np.sum(m.food_layer),
                 "Known Food": lambda m: np.sum(m.known_food_layer),
                 "Agents": lambda m: m.schedule.get_agent_count(),
-                "Agent Positions": get_positions,
+                "Agent Positions": self.get_positions,
                 "Warehouse location": lambda m: m.storage_location,
             }
         )
@@ -50,8 +59,8 @@ class NomNomModel(Model):
         self.num_food = max_food
 
         # Model Instances
-        self.spawn_agents(3, Collector, "collector_")
-        self.spawn_agents(2, Explorer, "explorer_")
+        self.spawn_agents(2, Collector, "collector_")
+        self.spawn_agents(3, Explorer, "explorer_")
         self.place_warehouse()
 
     def spawn_agents(
@@ -93,9 +102,7 @@ class NomNomModel(Model):
             (x, y)
             for x in range(self.grid.width)
             for y in range(self.grid.height)
-            if self.grid.is_cell_empty((x, y))
-            and self.food_layer[x][y] == 0
-            and (x, y) != self.storage_location
+            if self.grid.is_cell_empty((x, y)) and self.food_layer[x][y] == 0 and (x, y) != self.storage_location
         ]
         num_food = min(
             self.random.randrange(2, 6),
@@ -123,9 +130,6 @@ class NomNomModel(Model):
                 self.storage_location = (x, y)
                 break
 
-    def get_positions(model: Model):
-        return np.asarray([agent.pos for agent in model.schedule.agents])
-
     def step(self) -> None:
         """
         Advances the model by one step. Spawns the food each 5 steps
@@ -137,3 +141,19 @@ class NomNomModel(Model):
         # Spawn food each 5 steps
         if self.schedule.steps % 5 == 0:
             self.spawn_food(self.num_food)
+
+    def get_positions(model: Model):
+        agent_positions = []
+
+        for agent in model.schedule.agents:
+            key = agent.unique_id[0] + str(agent.unique_id[1])
+            agent_positions.append(
+                {
+                    "id": key,
+                    "x": agent.pos[0],
+                    "y": agent.pos[1],
+                    "type": agent.unique_id[0],
+                }
+            )
+
+        return agent_positions

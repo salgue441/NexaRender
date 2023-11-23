@@ -1,3 +1,6 @@
+from mesa import Agent, Model
+import numpy as np
+
 class Collector(Agent):
     def __init__(self, unique_id: int, model: Model) -> None:
         super().__init__(unique_id, model)
@@ -9,6 +12,12 @@ class Collector(Agent):
         """
         Step function for the agent
         """
+
+        self.find_storage()
+
+        if not self.has_food and not self.storage_found():
+            self.random_move()
+            return
 
         self.move_to_food()
         self.move_to_storage()
@@ -29,7 +38,7 @@ class Collector(Agent):
             radius=1
         )
 
-        if target in neighborhood:
+        if self.pos == target:
             self.pick_food()
             return
 
@@ -52,7 +61,7 @@ class Collector(Agent):
             radius=1
         )
 
-        if target in neighborhood:
+        if self.pos == target:
             self.drop_food()
             return
 
@@ -77,6 +86,21 @@ class Collector(Agent):
 
         self.has_food = False
         self.model.storaged_food += 1
+        self.random_move()
+    
+    def random_move(self) -> None:
+        """
+        Moves the agent randomly
+        """
+
+        neighborhood = self.model.grid.get_neighborhood(
+            self.pos,
+            moore=True,
+            include_center=False,
+            radius=1
+        )
+
+        self.move(self.random.choice(neighborhood), neighborhood)
 
     def move(self, target: tuple, neighborhood: tuple) -> None:
         """
@@ -111,6 +135,15 @@ class Collector(Agent):
         self.pos = new_pos
 
     # Helpers
+    def find_storage(self) -> None:
+        """
+        Look for storage in the current cell and mark it in the known storage layer.
+        """
+
+        (x, y) = self.pos
+        if self.model.storage_location == (x, y):
+            self.model.known_storage_location = (x, y)
+
     def find_closest_food(self) -> None:
         """
         Find the closest food location
