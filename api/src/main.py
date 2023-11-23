@@ -28,7 +28,10 @@ def run_simulation() -> Model:
 def get_data(model):
     all_positions = model.datacollector.get_model_vars_dataframe()
 
-    storage_location = model.storage_location
+    storage_location = {
+        "x": model.storage_location[0],
+        "y": model.storage_location[1]
+    }
     agent_pos = all_positions["Agent Positions"]
     food_positions = model.init_food_layer
     steps = model.schedule.steps
@@ -39,15 +42,25 @@ def get_data(model):
     agent_pos_list = []
 
     for i in range(len(agent_pos)):
-        agent_pos_list.append(agent_pos[i])
+        agent_pos_list.append({
+            "step": i,
+            "positions": agent_pos[i]
+        })
 
     # Cast food_positions to list type
-    food_positions = food_positions.tolist()
+    food_positions_list = []
+    for i in range(len(food_positions)):
+        for j in range(len(food_positions[i])):
+            food_positions_list.append({
+                "x": i,
+                "y": j,
+                "value": int(food_positions[i][j])
+            })
 
     return {
         "storage_location": storage_location,
-        "agent_pos": agent_pos_list,
-        "food_positions": food_positions,
+        "agent_positions": agent_pos_list,
+        "food_positions": food_positions_list,
         "steps": steps
     }
 

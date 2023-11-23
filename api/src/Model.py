@@ -143,10 +143,17 @@ class NomNomModel(Model):
             self.spawn_food(self.num_food)
 
     def get_positions(model: Model):
-        agent_positions = {}
+        agent_positions = []
 
         for agent in model.schedule.agents:
             key = agent.unique_id[0] + str(agent.unique_id[1])
-            agent_positions[key] = [agent.pos]
+            agent_positions.append(
+                {
+                    "id": key,
+                    "x": agent.pos[0],
+                    "y": agent.pos[1],
+                    "type": agent.unique_id[0],
+                }
+            )
 
         return agent_positions
