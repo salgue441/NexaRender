@@ -33,10 +33,9 @@ def get_data(model):
         "y": model.storage_location[1]
     }
     agent_pos = all_positions["Agent Positions"]
+    food_positions2 = all_positions["Food Positions"]
     food_positions = model.init_food_layer
     steps = model.schedule.steps
-
-    print(agent_pos)
 
     # Cast agent_pos to DataFrame type
     agent_pos_list = []
@@ -44,7 +43,8 @@ def get_data(model):
     for i in range(len(agent_pos)):
         agent_pos_list.append({
             "step": i,
-            "positions": agent_pos[i]
+            "positions": agent_pos[i],
+            "food": food_positions2[i]
         })
 
     # Cast food_positions to list type

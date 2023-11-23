@@ -548,7 +548,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.26
   m_Height: 0.66957575
@@ -566,6 +566,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b25561651744000aca2b6a3299ad79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent:
+    id: 
+    type: 
+    x: 0
+    y: 0
 --- !u!1 &6788538757856321312
 GameObject:
   m_ObjectHideFlags: 0

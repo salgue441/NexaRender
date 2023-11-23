@@ -40,6 +40,7 @@ class NomNomModel(Model):
                 "Known Food": lambda m: np.sum(m.known_food_layer),
                 "Agents": lambda m: m.schedule.get_agent_count(),
                 "Agent Positions": self.get_positions,
+                "Food Positions": self.get_food_positions,
                 "Warehouse location": lambda m: m.storage_location,
             }
         )
@@ -50,6 +51,7 @@ class NomNomModel(Model):
         self.total_food_spawned = 0
 
         # Layers
+        self.taken_food_positions = set()
         self.init_food_layer = np.zeros((width, height), dtype=np.int8)
         self.food_layer = np.zeros((width, height), dtype=np.int8)
         self.known_food_layer = np.zeros((width, height), dtype=np.int8)
@@ -158,3 +160,19 @@ class NomNomModel(Model):
             )
 
         return agent_positions
+    
+    def get_food_positions(model: Model):
+        food_positions = []
+
+        for x in range(model.grid.width):
+            for y in range(model.grid.height):
+                pos = model.known_food_layer[x][y]
+                if pos == 1 and pos:
+                    new_pos = {
+                        "x": x,
+                        "y": y
+                    }
+                    food_positions.append(new_pos)
+
+
+        return food_positions

@@ -20,22 +20,14 @@ public class SimManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        Time.timeScale = 3f;
         warehouse.Appearance(sim.storage_location.x, sim.storage_location.y);
         InitializeAgents();
 
         simulationSteps = new Queue<StepModel>(sim.agent_positions);
         isSimulationRunning = true;
-    }
 
-    /// <summary>
-    /// Updates the simulation environment.
-    /// </summary>
-    private void Update()
-    {
-        if (isSimulationRunning && simulationSteps.Count > 0)
-        {
-            ProcessStep(simulationSteps.Dequeue());
-        }
+        StartCoroutine(MoveAgents());
     }
 
     /// <summary>
@@ -68,15 +60,37 @@ public class SimManager : MonoBehaviour
     {
         int explorer_count = 0;
         int collector_count = 0;
+        float speed = 1f;
 
         foreach (AgentModel agent in step.positions)
         {
             if (agent.type == "collector_")
-                collector[collector_count++].Move(agent.x, agent.y);
+                collector[collector_count++].Move(agent.x, agent.y, speed);
 
             else if (agent.type == "explorer_")
-                explorer[explorer_count++].Move(agent.x, agent.y);
+                explorer[explorer_count++].Move(agent.x, agent.y, speed);
             
+        }
+    }
+
+    /// <summary>
+    /// Moves the agents in the simulation environment.
+    /// </summary>
+    /// <returns></returns>
+    /// <remarks>
+    /// This coroutine is used to move the agents in the simulation environment.
+    /// </remarks>
+
+    IEnumerator MoveAgents()
+    {
+        while (isSimulationRunning)
+        {
+            if (simulationSteps.Count > 0)
+            {
+                ProcessStep(simulationSteps.Dequeue());
+            }
+
+            yield return new WaitForSeconds(1f);
         }
     }
 }

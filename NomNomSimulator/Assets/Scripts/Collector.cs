@@ -8,6 +8,7 @@ using System.Collections;
 public class Collector : MonoBehaviour
 {
     public AgentModel agent;
+    private Animator animator;
 
     // Constructor
     /// <summary>
@@ -19,6 +20,14 @@ public class Collector : MonoBehaviour
         this.agent = new AgentModel();
         this.agent.id = id;
         this.agent.type = "collector_";
+    }
+
+    /// <summary>
+    /// Initializes the animator for the explorer.
+    /// </summary>
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -36,9 +45,10 @@ public class Collector : MonoBehaviour
     /// </summary>
     /// <param name="x">The x-coordinate of the agent's destination</param>
     /// <param name="z">The z-coordinate of the agent's destination</param>
-    public void Move(int x, int z)
+    public void Move(int x, int z, float speed)
     {
-        StartCoroutine(MoveToPosition(new(x, 0.6f, z), 10f));
+        animator.Play("Walk");
+        StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
     }
 
     /// <summary>
