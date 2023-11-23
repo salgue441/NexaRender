@@ -4,21 +4,9 @@ using UnityEngine;
 
 public class Warehouse : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Appearance(int x, int z)
     {
-        int randomXPosition = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 20.0f));
-        int randomZPosition = Mathf.RoundToInt(UnityEngine.Random.Range(0.0f, 20.0f));
-
-        transform.position = new Vector3(randomXPosition, 0.2f, randomZPosition);
-
-        Vector3 currentPosition = transform.position;
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        // Aparecer en la posición inicial
+        transform.position = new Vector3(x, 0.2f, z);
     }
 }
