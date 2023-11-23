@@ -59,9 +59,10 @@ class NomNomModel(Model):
         self.num_food = max_food
 
         # Model Instances
+        self.spawn_food(self.num_food)
+        self.place_warehouse()
         self.spawn_agents(2, Collector, "collector_")
         self.spawn_agents(3, Explorer, "explorer_")
-        self.place_warehouse()
 
     def spawn_agents(
         self, num_agents: int, agent_class: Agent, prefix: str = ""

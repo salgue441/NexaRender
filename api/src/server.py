@@ -11,7 +11,7 @@ class Server(BaseHTTPRequestHandler):
     Handles HTTP requests to the server.
     """
 
-    def _set_response(self, code: int = 200, content_type: str = "text/html"):
+    def _set_response(self, code: int = 200, content_type: str = "application/json"):
         """
         Sets the response code and headers.
 
