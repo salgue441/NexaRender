@@ -55,7 +55,6 @@ def get_data(model):
                 food_positions_list.append({
                     "x": i,
                     "y": j,
-                    "value": int(food_positions[i][j])
                 })
 
     return {
