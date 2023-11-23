@@ -1,28 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Threading;
 
 public class SimManager : MonoBehaviour
 {
     Simulation sim = APIHelper.GetSimulation();
+    public Warehouse warehouse;
+    public List<Collector> collector;
+    public List<Explorer> explorer;
+    public Food food;
 
-    // print to console simulation data
     void Start()
     {
-        Debug.Log("Simulation steps: " + sim.steps);
-        Debug.Log("Simulation storage location: (" + sim.storage_location.x + ", " + sim.storage_location.y + ")");
-        Debug.Log("Simulation food positions: ");
+        int explorer_count = 0;
+        int collector_count = 0;
+
+
         foreach (FoodModel food in sim.food_positions)
         {
-            Debug.Log("(" + food.x + ", " + food.y + ") Value: " + food.value);
+            //Debug.Log("(" + food.x + ", " + food.y + ") Value: " + food.value);
         }
-        Debug.Log("Simulation agent positions: ");
+
         foreach (StepModel step in sim.agent_positions)
         {
-            Debug.Log("Step: " + step.step);
+            explorer_count = 0;
+            collector_count = 0;
             foreach (AgentModel agent in step.positions)
             {
-                Debug.Log("Agent: " + agent.id + " (" + agent.x + ", " + agent.y + ")" + " Type: " + agent.type);
+                if (step.step == 0)
+                {
+                    if (agent.type == "collector_")
+                    {
+                        collector[collector_count++].Appearance(agent.x, agent.y);
+                    }
+                    else if (agent.type == "explorer_")
+                    {
+                        explorer[explorer_count++].Appearance(agent.x, agent.y);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Step: " + step.step);
+
+                    if (agent.type == "collector_")
+                    {
+                        collector[collector_count++].Move(agent.x, agent.y);
+                    }
+                    else if (agent.type == "explorer_")
+                    {
+                        explorer[explorer_count++].Move(agent.x, agent.y);
+                    }
+                }
             }
         }
     }

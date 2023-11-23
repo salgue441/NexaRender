@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Threading;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Explorer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int id;
+
+    public Explorer(int id)
     {
-        
+        this.id = id;
+    }
+    public void Appearance(int x, int z)
+    {
+        // Aparecer en la posición inicial
+        transform.position = new Vector3(x, 0.6f, z);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move(int x, int z)
     {
-        
+        Thread.Sleep(1);
+        transform.position = new Vector3(x, 0.6f, z);
     }
+
 }
