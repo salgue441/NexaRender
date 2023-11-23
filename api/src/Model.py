@@ -166,13 +166,14 @@ class NomNomModel(Model):
 
         for x in range(model.grid.width):
             for y in range(model.grid.height):
-                pos = model.known_food_layer[x][y]
-                if pos == 1 and pos:
+                value = model.food_layer[x][y]
+                if value == 1 and (x, y) not in model.taken_food_positions:
                     new_pos = {
                         "x": x,
                         "y": y
                     }
                     food_positions.append(new_pos)
+                    model.taken_food_positions.add((x, y))
 
 
         return food_positions
