@@ -20,7 +20,7 @@ public class Explorer : MonoBehaviour
 
     public void Move(int x, int z)
     {
-        Thread.Sleep(1);
+        // Moverse a la posición indicada
         transform.position = new Vector3(x, 0.6f, z);
     }
 

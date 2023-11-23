@@ -22,7 +22,6 @@ public class Collector : MonoBehaviour
 
     public void Move(int x, int z)
     {
-        Thread.Sleep(1);
         transform.position = new Vector3(x, 0.6f, z);
     }
 

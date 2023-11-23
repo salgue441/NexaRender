@@ -17,6 +17,7 @@ public class SimManager : MonoBehaviour
         int explorer_count = 0;
         int collector_count = 0;
 
+        warehouse.Appearance(sim.storage_location.x, sim.storage_location.y);
 
         foreach (FoodModel food in sim.food_positions)
         {
@@ -38,19 +39,6 @@ public class SimManager : MonoBehaviour
                     else if (agent.type == "explorer_")
                     {
                         explorer[explorer_count++].Appearance(agent.x, agent.y);
-                    }
-                }
-                else
-                {
-                    Debug.Log("Step: " + step.step);
-
-                    if (agent.type == "collector_")
-                    {
-                        collector[collector_count++].Move(agent.x, agent.y);
-                    }
-                    else if (agent.type == "explorer_")
-                    {
-                        explorer[explorer_count++].Move(agent.x, agent.y);
                     }
                 }
             }
