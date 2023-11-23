@@ -24,7 +24,7 @@ public class SimManager : MonoBehaviour
         warehouse.Appearance(sim.storage_location.x, sim.storage_location.y);
         InitializeAgents();
 
-        simulationSteps = new Queue<StepModel>(sim.agent_positions);
+        simulationSteps = new Queue<StepModel>(sim.positions);
         isSimulationRunning = true;
 
         StartCoroutine(MoveAgents());
@@ -35,9 +35,9 @@ public class SimManager : MonoBehaviour
     /// </summary>
     private void InitializeAgents()
     {
-        if (sim.agent_positions.Count > 0)
+        if (sim.positions.Count > 0)
         {
-            StepModel firstStep = sim.agent_positions[0];
+            StepModel firstStep = sim.positions[0];
 
             int collector_count = 0;
             int explorer_count = 0;

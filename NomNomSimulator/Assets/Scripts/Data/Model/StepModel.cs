@@ -6,4 +6,5 @@ public class StepModel
 {
     public int step;
     public List<AgentModel> positions;
+    public List<FoodModel> food;
 }

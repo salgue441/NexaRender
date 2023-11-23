@@ -33,8 +33,7 @@ def get_data(model):
         "y": model.storage_location[1]
     }
     agent_pos = all_positions["Agent Positions"]
-    food_positions2 = all_positions["Food Positions"]
-    food_positions = model.init_food_layer
+    food_positions = all_positions["Food Positions"]
     steps = model.schedule.steps
 
     # Cast agent_pos to DataFrame type
@@ -44,23 +43,13 @@ def get_data(model):
         agent_pos_list.append({
             "step": i,
             "positions": agent_pos[i],
-            "food": food_positions2[i]
+            "food": food_positions[i]
         })
 
-    # Cast food_positions to list type
-    food_positions_list = []
-    for i in range(len(food_positions)):
-        for j in range(len(food_positions[i])):
-            if food_positions[i][j] != 0:
-                food_positions_list.append({
-                    "x": i,
-                    "y": j,
-                })
 
     return {
         "storage_location": storage_location,
-        "agent_positions": agent_pos_list,
-        "food_positions": food_positions_list,
+        "positions": agent_pos_list,
         "steps": steps
     }
 
