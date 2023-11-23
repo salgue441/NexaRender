@@ -51,11 +51,11 @@ def get_data(model):
     food_positions_list = []
     for i in range(len(food_positions)):
         for j in range(len(food_positions[i])):
-            food_positions_list.append({
-                "x": i,
-                "y": j,
-                "value": int(food_positions[i][j])
-            })
+            if food_positions[i][j] != 0:
+                food_positions_list.append({
+                    "x": i,
+                    "y": j,
+                })
 
     return {
         "storage_location": storage_location,
