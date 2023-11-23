@@ -1,29 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Threading;
 
 public class SimManager : MonoBehaviour
 {
-    Simulation sim = APIHelper.GetSimulation();
+    public Warehouse warehouse;
+    public List<Collector> collector;
+    public List<Explorer> explorer;
+    public Food food;
 
-    // print to console simulation data
-    void Start()
+    private readonly Simulation sim = APIHelper.GetSimulation();
+    private Queue<StepModel> simulationSteps;
+    private bool isSimulationRunning = false;
+
+    /// <summary>
+    /// Initializes the simulation environment.
+    /// </summary>
+    private void Start()
     {
-        Debug.Log("Simulation steps: " + sim.steps);
-        Debug.Log("Simulation storage location: (" + sim.storage_location.x + ", " + sim.storage_location.y + ")");
-        Debug.Log("Simulation food positions: ");
-        foreach (FoodModel food in sim.food_positions)
+        warehouse.Appearance(sim.storage_location.x, sim.storage_location.y);
+        InitializeAgents();
+
+        simulationSteps = new Queue<StepModel>(sim.agent_positions);
+        isSimulationRunning = true;
+    }
+
+    /// <summary>
+    /// Updates the simulation environment.
+    /// </summary>
+    private void Update()
+    {
+        if (isSimulationRunning && simulationSteps.Count > 0)
         {
-            Debug.Log("(" + food.x + ", " + food.y + ") Value: " + food.value);
+            ProcessStep(simulationSteps.Dequeue());
         }
-        Debug.Log("Simulation agent positions: ");
-        foreach (StepModel step in sim.agent_positions)
+    }
+
+    /// <summary>
+    /// Initializes the agents in the simulation environment.
+    /// </summary>
+    private void InitializeAgents()
+    {
+        if (sim.agent_positions.Count > 0)
         {
-            Debug.Log("Step: " + step.step);
-            foreach (AgentModel agent in step.positions)
+            StepModel firstStep = sim.agent_positions[0];
+
+            int collector_count = 0;
+            int explorer_count = 0;
+
+            foreach (AgentModel agent in firstStep.positions)
             {
-                Debug.Log("Agent: " + agent.id + " (" + agent.x + ", " + agent.y + ")" + " Type: " + agent.type);
+                if (agent.type == "collector_")
+                    collector[collector_count++].Appearance(agent.x, agent.y);
+
+                else
+                    explorer[explorer_count++].Appearance(agent.x, agent.y);
             }
+        }
+    }
+
+    /// <summary>
+    /// Processes a step in the simulation.
+    /// </summary>
+    private void ProcessStep(StepModel step)
+    {
+        int explorer_count = 0;
+        int collector_count = 0;
+
+        foreach (AgentModel agent in step.positions)
+        {
+            if (agent.type == "collector_")
+                collector[collector_count++].Move(agent.x, agent.y);
+
+            else if (agent.type == "explorer_")
+                explorer[explorer_count++].Move(agent.x, agent.y);
+            
         }
     }
 }
