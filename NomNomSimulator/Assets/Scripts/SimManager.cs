@@ -4,32 +4,27 @@ using UnityEngine;
 
 public class SimManager : MonoBehaviour
 {
-    public Collector collector;
-    // public Explorer explorer;
-    public Warehouse warehouse;
-    public Food food;
+    Simulation sim = APIHelper.GetSimulation();
 
-    public int totalSteps = 10;
-
+    // print to console simulation data
     void Start()
     {
-        // Llamar a la función que inicializa la simulación
-        InitializeSimulation(); 
-    }
-
-    void Update()
-    {
-        // Llamar a la función que realiza los pasos de simulación en cada frame
-        SimulateStep();
-    }
-
-    void InitializeSimulation()
-    {
-        warehouse.Appearance(3, 13);
-    }
-
-    void SimulateStep()
-    {
-        
+        Debug.Log("Simulation steps: " + sim.steps);
+        Debug.Log("Simulation storage location: (" + sim.storage_location.x + ", " + sim.storage_location.y + ")");
+        Debug.Log("Simulation food positions: ");
+        foreach (FoodModel food in sim.food_positions)
+        {
+            Debug.Log("(" + food.x + ", " + food.y + ") Value: " + food.value);
+        }
+        Debug.Log("Simulation agent positions: ");
+        foreach (StepModel step in sim.agent_positions)
+        {
+            Debug.Log("Step: " + step.step);
+            foreach (AgentModel agent in step.positions)
+            {
+                Debug.Log("Agent: " + agent.id + " (" + agent.x + ", " + agent.y + ")" + " Type: " + agent.type);
+            }
+        }
     }
 }
+
