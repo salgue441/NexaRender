@@ -16383,6 +16383,7 @@ MonoBehaviour:
   - {fileID: 555644107}
   - {fileID: 965856170}
   food: {fileID: 0}
+  FoodPrefab: {fileID: 100000, guid: 5a5788db97aee9d4fa6e7b9c436e11f2, type: 3}
 --- !u!4 &1248595467
 Transform:
   m_ObjectHideFlags: 0
