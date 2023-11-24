@@ -10,6 +10,7 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public Food food;
+    public GameObject FoodPrefab;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -71,6 +72,13 @@ public class SimManager : MonoBehaviour
                 explorer[explorer_count++].Move(agent.x, agent.y, speed);
             
         }
+
+        if(step.id % 5 == 0)
+            foreach (FoodModel food in step.food) {
+                // rotate the food in x 90 degrees
+                GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
+                
+            }
     }
 
     /// <summary>
@@ -93,5 +101,7 @@ public class SimManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
     }
+
+
 }
 
