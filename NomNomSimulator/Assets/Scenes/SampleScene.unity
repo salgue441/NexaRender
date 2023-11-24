@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16382,8 +16382,8 @@ MonoBehaviour:
   - {fileID: 2140462816}
   - {fileID: 555644107}
   - {fileID: 965856170}
-  food: {fileID: 0}
-  FoodPrefab: {fileID: 100000, guid: 5a5788db97aee9d4fa6e7b9c436e11f2, type: 3}
+  FoodPrefab: {fileID: 7512086672495896212, guid: 981eb4e1ca4304ab282ab00cd13ed55a,
+    type: 3}
 --- !u!4 &1248595467
 Transform:
   m_ObjectHideFlags: 0
@@ -29364,7 +29364,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 772620053793203964}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 772620053793203965}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2c8ac0be5d8a4b8c8b43a6dd890a6f0, type: 3}
@@ -29447,8 +29447,45 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6788538757290762323, guid: fc6c59f4fcb0d49b7901e5af83061d03,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 772620053793203966}
   m_SourcePrefab: {fileID: 100100000, guid: fc6c59f4fcb0d49b7901e5af83061d03, type: 3}
+--- !u!1 &772620053793203965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6788538757290762323, guid: fc6c59f4fcb0d49b7901e5af83061d03,
+    type: 3}
+  m_PrefabInstance: {fileID: 772620053793203964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &772620053793203966
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772620053793203965}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &8568345952451618224
 PrefabInstance:
   m_ObjectHideFlags: 0

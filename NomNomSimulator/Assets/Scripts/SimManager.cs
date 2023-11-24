@@ -9,19 +9,22 @@ public class SimManager : MonoBehaviour
     public Warehouse warehouse;
     public List<Collector> collector;
     public List<Explorer> explorer;
-    public Food food;
     public GameObject FoodPrefab;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
     private bool isSimulationRunning = false;
 
+    private float normalTimeScale = 3f;
+    private float acceleratedTimeScale = 10f;
+    private bool isAccelerated = false;
+
     /// <summary>
     /// Initializes the simulation environment.
     /// </summary>
     private void Start()
     {
-        Time.timeScale = 3f;
+        Time.timeScale = normalTimeScale;
         warehouse.Appearance(sim.storage_location.x, sim.storage_location.y);
         InitializeAgents();
 
@@ -54,6 +57,15 @@ public class SimManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isAccelerated = !isAccelerated;
+            Time.timeScale = isAccelerated ? acceleratedTimeScale : normalTimeScale;
+        }
+    }
+
     /// <summary>
     /// Processes a step in the simulation.
     /// </summary>
@@ -70,14 +82,15 @@ public class SimManager : MonoBehaviour
 
             else if (agent.type == "explorer_")
                 explorer[explorer_count++].Move(agent.x, agent.y, speed);
-            
+
         }
 
-        if(step.id % 5 == 0)
-            foreach (FoodModel food in step.food) {
+        if (step.id % 5 == 0)
+            foreach (FoodModel food in step.food)
+            {
                 // rotate the food in x 90 degrees
                 GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
-                
+
             }
     }
 

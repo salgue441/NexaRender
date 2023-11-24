@@ -64,13 +64,22 @@ public class Explorer : MonoBehaviour
 
         while (time < duration)
         {
-            transform.position = Vector3.Lerp(startPosition, target,
-                time / duration);
-                
+            // Calculate the direction to the target
+            Vector3 direction = (target - startPosition).normalized;
+
+            // Rotate towards the target
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+
+            // Move towards the target
+            transform.position = Vector3.Lerp(startPosition, target, time / duration);
+
             time += Time.deltaTime;
             yield return null;
         }
 
+        // Ensure the collector is facing the final destination
+        transform.LookAt(target);
         transform.position = target;
     }
 }
