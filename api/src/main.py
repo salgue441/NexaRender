@@ -26,31 +26,27 @@ def run_simulation() -> Model:
 
 
 def get_data(model):
+    steps = []
     all_positions = model.datacollector.get_model_vars_dataframe()
 
     storage_location = {
         "x": model.storage_location[0],
         "y": model.storage_location[1]
     }
-    agent_pos = all_positions["Agent Positions"]
+    agent_positions = all_positions["Agent Positions"]
     food_positions = all_positions["Food Positions"]
-    steps = model.schedule.steps
 
-    # Cast agent_pos to DataFrame type
-    agent_pos_list = []
-
-    for i in range(len(agent_pos)):
-        agent_pos_list.append({
-            "step": i,
-            "positions": agent_pos[i],
+    for i in range(len(agent_positions)):
+        steps.append({
+            "id": i,
+            "agents": agent_positions[i],
             "food": food_positions[i]
         })
 
-
     return {
         "storage_location": storage_location,
-        "positions": agent_pos_list,
-        "steps": steps
+        "steps": steps,
+        "total_steps": model.schedule.steps
     }
 
 def main():

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Simulation
 {
-    public int steps;
+    public int total_steps;
     public StorageModel storage_location;
-    public List<StepModel> positions; 
+    public List<StepModel> steps; 
 }
