@@ -1,20 +1,33 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Manages the behavior of an explorer agent in the simulation.
 /// </summary>
 public class Explorer : MonoBehaviour
 {
-    private int id;
+    public AgentModel agent;
+    private Animator animator;
 
     /// <summary>
     /// Initializes the Explorer with an ID.
     /// </summary>
     /// <param name="id">The unique identifier for the explorer.</param>
-    public void Initialize(int id)
+
+    public Explorer(string id)
     {
-        this.id = id;
+        this.agent = new AgentModel();
+        this.agent.id = id;
+        this.agent.type = "explorer_";
+    }
+
+    /// <summary>
+    /// Initializes the animator for the explorer.
+    /// </summary>
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -32,9 +45,10 @@ public class Explorer : MonoBehaviour
     /// </summary>
     /// <param name="x">The x-coordinate of the new position.</param>
     /// <param name="z">The z-coordinate of the new position.</param>
-    public void Move(int x, int z)
+    public void Move(int x, int z, float speed)
     {
-        StartCoroutine(MoveToPosition(new Vector3(x, 0.6f, z), 10f));
+        animator.Play("Fly");
+        StartCoroutine(MoveToPosition(new Vector3(x, 0.6f, z), speed));
     }
 
     /// <summary>
