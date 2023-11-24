@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33455062292211742}
   - component: {fileID: 23733311136053624}
   m_Layer: 0
-  m_Name: PREFAB_Hat_Party
+  m_Name: Hat_Party
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
