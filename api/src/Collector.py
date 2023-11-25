@@ -1,6 +1,7 @@
 from mesa import Agent, Model
 import numpy as np
 
+
 class Collector(Agent):
     def __init__(self, unique_id: int, model: Model) -> None:
         super().__init__(unique_id, model)
@@ -32,10 +33,7 @@ class Collector(Agent):
 
         target = self.find_closest_food()
         neighborhood = self.model.grid.get_neighborhood(
-            self.pos,
-            moore=True,
-            include_center=False,
-            radius=1
+            self.pos, moore=True, include_center=False, radius=1
         )
 
         if self.pos == target:
@@ -55,10 +53,7 @@ class Collector(Agent):
         target = self.model.known_storage_location
 
         neighborhood = self.model.grid.get_neighborhood(
-            self.pos,
-            moore=True,
-            include_center=False,
-            radius=1
+            self.pos, moore=True, include_center=False, radius=1
         )
 
         if self.pos == target:
@@ -71,8 +66,8 @@ class Collector(Agent):
         """
         Pick food at the current location if the agent is ready to pick food
         """
-        for i in range (self.model.grid.width):
-            for j in range (self.model.grid.height):
+        for i in range(self.model.grid.width):
+            for j in range(self.model.grid.height):
                 if self.model.known_food_layer[i][j] == 1:
                     self.model.known_food_layer[i][j] = 0
                     self.model.food_layer[i][j] = 0
@@ -80,24 +75,21 @@ class Collector(Agent):
                     return
 
     def drop_food(self) -> None:
-        """"
+        """ "
         Drop food at the storage location
         """
 
         self.has_food = False
         self.model.storaged_food += 1
         self.random_move()
-    
+
     def random_move(self) -> None:
         """
         Moves the agent randomly
         """
 
         neighborhood = self.model.grid.get_neighborhood(
-            self.pos,
-            moore=True,
-            include_center=False,
-            radius=1
+            self.pos, moore=True, include_center=False, radius=1
         )
 
         self.move(self.random.choice(neighborhood), neighborhood)
@@ -154,10 +146,10 @@ class Collector(Agent):
 
         food_positions = []
 
-        for i in range (self.model.grid.width):
-            for j in range (self.model.grid.height):
+        for i in range(self.model.grid.width):
+            for j in range(self.model.grid.height):
                 if self.model.known_food_layer[i][j] == 1:
-                    food_positions.append((i,j))
+                    food_positions.append((i, j))
 
         closest_food = None
         closest_distance = 1000000
