@@ -9,6 +9,7 @@ public class Collector : MonoBehaviour
 {
     public AgentModel agent;
     private Animator animator;
+    private bool isEating = false;
 
     // Constructor
     /// <summary>
@@ -86,11 +87,15 @@ public class Collector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Waffle"))
+        if (other.gameObject.CompareTag("Waffle") && !isEating)
         {
-            Debug.Log("Waffle eaten!");
             Destroy(other.gameObject);
             animator.Play("Eat");
+            isEating = true;
+        }
+        if (other.gameObject.CompareTag("Warehouse") && isEating)
+        {
+            isEating = false;
         }
     }
 }
