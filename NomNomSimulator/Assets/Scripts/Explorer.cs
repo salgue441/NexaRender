@@ -67,9 +67,13 @@ public class Explorer : MonoBehaviour
             // Calculate the direction to the target
             Vector3 direction = (target - startPosition).normalized;
 
-            // Rotate towards the target
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            // Check if the direction is not zero before rotating
+            if (direction != Vector3.zero)
+            {
+                // Rotate towards the target
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            }
 
             // Move towards the target
             transform.position = Vector3.Lerp(startPosition, target, time / duration);

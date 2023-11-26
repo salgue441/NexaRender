@@ -11,17 +11,19 @@ public class Collector : MonoBehaviour
     private Animator animator;
     private bool isEating = false;
     public GameObject wafflePrefab;
+     private SimManager simManager;
 
     // Constructor
     /// <summary>
     /// Creates a new instance of Collector:: class.
     /// </summary>
     /// <param name="id">The ID of the agent to be spawned</param>
-    public Collector(string id)
+    public Collector(string id, SimManager manager)
     {
         this.agent = new AgentModel();
         this.agent.id = id;
         this.agent.type = "collector_";
+        this.simManager = manager;
     }
 
     /// <summary>
@@ -70,9 +72,13 @@ public class Collector : MonoBehaviour
             // Calculate the direction to the target
             Vector3 direction = (target - startPosition).normalized;
 
-            // Rotate towards the target
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            // Check if the direction is not zero before rotating
+            if (direction != Vector3.zero)
+            {
+                // Rotate towards the target
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            }
 
             // Move towards the target
             transform.position = Vector3.Lerp(startPosition, target, time / duration);
@@ -111,6 +117,7 @@ public class Collector : MonoBehaviour
         {
             Destroy(transform.GetChild(6).gameObject);
             isEating = false;
+            simManager.CollectFood();
         }
     }
 }
