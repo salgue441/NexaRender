@@ -573,6 +573,8 @@ MonoBehaviour:
     type: 
     x: 0
     y: 0
+  wafflePrefab: {fileID: 7512086672495896212, guid: 981eb4e1ca4304ab282ab00cd13ed55a,
+    type: 3}
 --- !u!54 &-5783505279334541402
 Rigidbody:
   m_ObjectHideFlags: 0
