@@ -11,7 +11,6 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
-    public GameObject[] gameObjects;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -90,19 +89,31 @@ public class SimManager : MonoBehaviour
         if (step.id % 5 == 0)
             foreach (FoodModel food in step.food)
             {
-                GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
-
-                Food foodScript = newFood.GetComponent<Food>();
-            
-                if (foodScript != null)
-                {
-                    // Set the custom ID
-                    int customID = food.id;
-                    foodScript.SetCustomID(customID);
-                }
-
-                gameObjects.Append(newFood);
+               Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
             }
+
+        if(step.food_picked.picked) {
+            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
+
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if(step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z) {
+                    Destroy(gameObject);
+                    break;
+                }
+            }
+        }
+
+            //             gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
+            // // print gameObjects
+            // foreach (GameObject gameObject in gameObjects)
+            // {
+            //     if(x == gameObject.transform.position.x && z == gameObject.transform.position.z) {
+            //         Destroy(gameObject);
+            //         break;
+            //     }
+                    
+            // }
     }
 
     /// <summary>

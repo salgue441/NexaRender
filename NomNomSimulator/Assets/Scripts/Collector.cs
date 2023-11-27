@@ -56,24 +56,13 @@ public class Collector : MonoBehaviour
         animator.Play("Walk");
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
 
-        if (!hasFood)
+        if (hasFood)
         {
-            gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
-            // print gameObjects
-            foreach (GameObject gameObject in gameObjects)
-            {
-                if(x == gameObject.transform.position.x && z == gameObject.transform.position.z) {
-                    Destroy(gameObject);
-                    break;
-                }
-                    
-            }
-
-            waffle.SetActive(false);
+            waffle.SetActive(true);
         }
         else
         {
-            waffle.SetActive(true);
+            waffle.SetActive(false);
         }
     }
 
