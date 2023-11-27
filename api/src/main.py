@@ -37,10 +37,17 @@ def get_data(model):
     food_positions = all_positions["Food Positions"]
 
     for i in range(len(agent_positions)):
+        for j in range(len(model.picking_steps)):
+            if model.picking_steps[j]["step"] == i:
+                food_picked = model.picking_steps[j]
+                break
+            else:
+                food_picked = None
         steps.append({
             "id": i,
             "agents": agent_positions[i],
-            "food": food_positions[i]
+            "food": food_positions[i], 
+            "food_picked": food_picked
         })
 
     return {

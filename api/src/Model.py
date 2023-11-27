@@ -52,6 +52,7 @@ class NomNomModel(Model):
 
         # Layers
         self.taken_food_positions = set()
+        self.picking_steps = []
         self.init_food_layer = np.zeros((width, height), dtype=np.int8)
         self.food_layer = np.zeros((width, height), dtype=np.int8)
         self.known_food_layer = np.zeros((width, height), dtype=np.int8)
