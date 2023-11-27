@@ -10,8 +10,8 @@ public class Collector : MonoBehaviour
     public AgentModel agent;
     private Animator animator;
     private bool isEating = false;
-    public GameObject wafflePrefab;
-     private SimManager simManager;
+    public GameObject waffle;
+    private SimManager simManager;
 
     // Constructor
     /// <summary>
@@ -32,6 +32,7 @@ public class Collector : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        waffle = transform.FirstOrDefault(x => x.CompareTag("MouthWaffle")).gameObject;
     }
 
     /// <summary>
@@ -96,26 +97,13 @@ public class Collector : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Waffle") && !isEating)
         {
-            float yOffset = 0.49f;
-            float xOffset = -0.25f;
-
-            Vector3 wafflePosition = new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z);
-
-            float rotation = 90f;
-            Quaternion waffleRotation = Quaternion.Euler(rotation, 0, 0);
-
-            GameObject waffle = Instantiate(wafflePrefab, wafflePosition, waffleRotation, transform);
-
-            float scaleMultiplier = 0.5f;
-            waffle.transform.localScale = new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
-
             Destroy(other.gameObject);
-            animator.Play("Eat");
+            waffle.SetActive(true);
             isEating = true;
         }
         if (other.gameObject.CompareTag("Warehouse") && isEating)
         {
-            Destroy(transform.GetChild(6).gameObject);
+            waffle.SetActive(false);
             isEating = false;
             simManager.CollectFood();
         }
