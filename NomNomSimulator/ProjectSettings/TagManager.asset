@@ -7,6 +7,7 @@ TagManager:
   - Collector
   - Waffle
   - Warehouse
+  - MouthWaffle
   layers:
   - Default
   - TransparentFX
