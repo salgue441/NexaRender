@@ -10,13 +10,13 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
+    public int collectedFood = 0;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
     private bool isSimulationRunning = false;
-
     private float normalTimeScale = 3f;
-    private float acceleratedTimeScale = 10f;
+    private float acceleratedTimeScale = 30f;
     private bool isAccelerated = false;
 
     /// <summary>
@@ -75,6 +75,9 @@ public class SimManager : MonoBehaviour
         int collector_count = 0;
         float speed = 1f;
 
+        Debug.Log("Processing step " + step.id);
+        Debug.Log("Food collected: " + collectedFood);
+
         foreach (AgentModel agent in step.agents)
         {
             if (agent.type == "collector_")
@@ -90,7 +93,6 @@ public class SimManager : MonoBehaviour
             {
                 // rotate the food in x 90 degrees
                 GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
-
             }
     }
 
@@ -110,11 +112,13 @@ public class SimManager : MonoBehaviour
             {
                 ProcessStep(simulationSteps.Dequeue());
             }
-
             yield return new WaitForSeconds(1f);
         }
     }
 
-
+    public void CollectFood()
+    {
+        collectedFood++;
+    }
 }
 

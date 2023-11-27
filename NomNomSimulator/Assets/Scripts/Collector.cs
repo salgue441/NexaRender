@@ -9,17 +9,21 @@ public class Collector : MonoBehaviour
 {
     public AgentModel agent;
     private Animator animator;
+    private bool isEating = false;
+    public GameObject wafflePrefab;
+     private SimManager simManager;
 
     // Constructor
     /// <summary>
     /// Creates a new instance of Collector:: class.
     /// </summary>
     /// <param name="id">The ID of the agent to be spawned</param>
-    public Collector(string id)
+    public Collector(string id, SimManager manager)
     {
         this.agent = new AgentModel();
         this.agent.id = id;
         this.agent.type = "collector_";
+        this.simManager = manager;
     }
 
     /// <summary>
@@ -68,9 +72,13 @@ public class Collector : MonoBehaviour
             // Calculate the direction to the target
             Vector3 direction = (target - startPosition).normalized;
 
-            // Rotate towards the target
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            // Check if the direction is not zero before rotating
+            if (direction != Vector3.zero)
+            {
+                // Rotate towards the target
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 5f);
+            }
 
             // Move towards the target
             transform.position = Vector3.Lerp(startPosition, target, time / duration);
@@ -86,11 +94,30 @@ public class Collector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Waffle"))
+        if (other.gameObject.CompareTag("Waffle") && !isEating)
         {
-            Debug.Log("Waffle eaten!");
+            float yOffset = 0.49f;
+            float xOffset = -0.25f;
+
+            Vector3 wafflePosition = new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z);
+
+            float rotation = 90f;
+            Quaternion waffleRotation = Quaternion.Euler(rotation, 0, 0);
+
+            GameObject waffle = Instantiate(wafflePrefab, wafflePosition, waffleRotation, transform);
+
+            float scaleMultiplier = 0.5f;
+            waffle.transform.localScale = new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
+
             Destroy(other.gameObject);
             animator.Play("Eat");
+            isEating = true;
+        }
+        if (other.gameObject.CompareTag("Warehouse") && isEating)
+        {
+            Destroy(transform.GetChild(6).gameObject);
+            isEating = false;
+            simManager.CollectFood();
         }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collector
   - Waffle
+  - Warehouse
   layers:
   - Default
   - TransparentFX

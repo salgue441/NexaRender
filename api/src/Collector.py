@@ -66,13 +66,11 @@ class Collector(Agent):
         """
         Pick food at the current location if the agent is ready to pick food
         """
-        for i in range(self.model.grid.width):
-            for j in range(self.model.grid.height):
-                if self.model.known_food_layer[i][j] == 1:
-                    self.model.known_food_layer[i][j] = 0
-                    self.model.food_layer[i][j] = 0
-                    self.has_food = True
-                    return
+        
+        (x, y) = self.pos
+        self.model.known_food_layer[x][y] = 0
+        self.model.food_layer[x][y] = 0
+        self.has_food = True
 
     def drop_food(self) -> None:
         """ "
