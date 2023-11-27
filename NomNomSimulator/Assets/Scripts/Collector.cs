@@ -52,13 +52,9 @@ public class Collector : MonoBehaviour
     /// <param name="z">The z-coordinate of the agent's destination</param>
     public void Move(int x, int z, float speed, StepModel step)
     {
-        if(step.food_picked.picked && step.food_picked.id_collector == id) {
-            Debug.Log("Food picked: " + step.food_picked.picked + " " + step.food_picked.x + " " + step.food_picked.y);
-        }
         if(step.food_picked.picked && step.food_picked.id_collector == id)
-        {
             pickFood = true;
-        }
+
         animator.Play("Walk");
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
     }
@@ -108,7 +104,7 @@ public class Collector : MonoBehaviour
             waffle.SetActive(true);
             isEating = true;
         }
-        if (other.gameObject.CompareTag("Warehouse") && isEating)
+        if (other.gameObject.CompareTag("Warehouse"))
         {
             waffle.SetActive(false);
             isEating = false;

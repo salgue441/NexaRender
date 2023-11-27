@@ -48,8 +48,10 @@ public class SimManager : MonoBehaviour
 
             foreach (AgentModel agent in firstStep.agents)
             {
-                if (agent.type == "collector_")
+                if (agent.type == "collector_") {
+                    Debug.Log(collector[collector_count].id);
                     collector[collector_count++].Appearance(agent.x, agent.y);
+                }
 
                 else
                     explorer[explorer_count++].Appearance(agent.x, agent.y);
@@ -74,6 +76,11 @@ public class SimManager : MonoBehaviour
         int explorer_count = 0;
         int collector_count = 0;
         float speed = 1f;
+
+        // if(step.id == 69) {
+        //     // stop simulation
+        //     System.Threading.Thread.Sleep(10000);
+        // }
 
         foreach (AgentModel agent in step.agents)
         {
