@@ -19407,7 +19407,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1987776050}
   - {fileID: 1248595467}
   - {fileID: 662858276}
   m_Father: {fileID: 0}
@@ -21550,10 +21549,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent:
-    id: 
+    id: 0
     type: 
     x: 0
     y: 0
+    has_food: 0
   id: 0
   waffle: {fileID: 0}
 --- !u!4 &1595046888 stripped
@@ -27172,50 +27172,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2046820039}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1987776048
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1987776050}
-  - component: {fileID: 1987776049}
-  m_Layer: 0
-  m_Name: TimeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1987776049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987776048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cc3426ca5974e1dbc24f1bbab27efb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1987776050
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987776048}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8, y: -0.3831966, z: -11.802997}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1403060252}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1990893868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4540392423778504, guid: cdd426b3d7547a04cbca8ff4412b2613,

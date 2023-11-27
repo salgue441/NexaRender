@@ -14,18 +14,6 @@ public class Collector : MonoBehaviour
     public int id;
     private Animator animator;
     public GameObject waffle;
-    private SimManager simManager;
-    GameObject[] gameObjects;
-
-    // Constructor
-    /// <summary>
-    /// Creates a new instance of Collector:: class.
-    /// </summary>
-    /// <param name="id">The ID of the agent to be spawned</param>
-    public Collector(string id, SimManager manager)
-    {
-        this.simManager = manager;
-    }
 
     /// <summary>
     /// Initializes the animator for the explorer.
@@ -57,13 +45,9 @@ public class Collector : MonoBehaviour
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
 
         if (hasFood)
-        {
             waffle.SetActive(true);
-        }
         else
-        {
             waffle.SetActive(false);
-        }
     }
 
     /// <summary>
@@ -102,17 +86,4 @@ public class Collector : MonoBehaviour
         transform.LookAt(target);
         transform.position = target;
     }
-
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.CompareTag("Waffle") && hasFood)
-    //     {
-    //         Destroy(other.gameObject);
-    //         waffle.SetActive(true);
-    //     }
-    //     if (other.gameObject.CompareTag("Warehouse"))
-    //     {
-    //         waffle.SetActive(false);
-    //     }
-    // }
 }

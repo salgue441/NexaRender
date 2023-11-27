@@ -5,5 +5,4 @@ public class FoodModel
 {
     public int x;
     public int y;
-    public int id;
 }

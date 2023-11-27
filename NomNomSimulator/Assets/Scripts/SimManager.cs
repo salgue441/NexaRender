@@ -48,10 +48,8 @@ public class SimManager : MonoBehaviour
 
             foreach (AgentModel agent in firstStep.agents)
             {
-                if (agent.type == "collector_") {
+                if (agent.type == "collector_") 
                     collector[collector_count++].Appearance(agent.x, agent.y);
-                }
-
                 else
                     explorer[explorer_count++].Appearance(agent.x, agent.y);
             }
@@ -88,32 +86,17 @@ public class SimManager : MonoBehaviour
 
         if (step.id % 5 == 0)
             foreach (FoodModel food in step.food)
-            {
                Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
-            }
 
         if(step.food_picked.picked) {
             GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
 
             foreach (GameObject gameObject in gameObjects)
-            {
                 if(step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z) {
                     Destroy(gameObject);
                     break;
                 }
-            }
         }
-
-            //             gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
-            // // print gameObjects
-            // foreach (GameObject gameObject in gameObjects)
-            // {
-            //     if(x == gameObject.transform.position.x && z == gameObject.transform.position.z) {
-            //         Destroy(gameObject);
-            //         break;
-            //     }
-                    
-            // }
     }
 
     /// <summary>
