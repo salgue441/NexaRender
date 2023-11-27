@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Manages the behavior of a collector agent, including its appearance
@@ -8,10 +9,12 @@ using System.Collections;
 public class Collector : MonoBehaviour
 {
     public AgentModel agent;
+    public int id;
     private Animator animator;
     private bool isEating = false;
     public GameObject waffle;
     private SimManager simManager;
+    private bool pickFood = false;
 
     // Constructor
     /// <summary>
@@ -20,9 +23,6 @@ public class Collector : MonoBehaviour
     /// <param name="id">The ID of the agent to be spawned</param>
     public Collector(string id, SimManager manager)
     {
-        this.agent = new AgentModel();
-        this.agent.id = id;
-        this.agent.type = "collector_";
         this.simManager = manager;
     }
 
@@ -50,8 +50,15 @@ public class Collector : MonoBehaviour
     /// </summary>
     /// <param name="x">The x-coordinate of the agent's destination</param>
     /// <param name="z">The z-coordinate of the agent's destination</param>
-    public void Move(int x, int z, float speed)
+    public void Move(int x, int z, float speed, StepModel step)
     {
+        if(step.food_picked.picked && step.food_picked.id_collector == id) {
+            Debug.Log("Food picked: " + step.food_picked.picked + " " + step.food_picked.x + " " + step.food_picked.y);
+        }
+        if(step.food_picked.picked && step.food_picked.id_collector == id)
+        {
+            pickFood = true;
+        }
         animator.Play("Walk");
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
     }
@@ -95,7 +102,7 @@ public class Collector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Waffle") && !isEating)
+        if (other.gameObject.CompareTag("Waffle") && pickFood)
         {
             Destroy(other.gameObject);
             waffle.SetActive(true);
@@ -106,6 +113,7 @@ public class Collector : MonoBehaviour
             waffle.SetActive(false);
             isEating = false;
             simManager.CollectFood();
+            pickFood = false;
         }
     }
 }

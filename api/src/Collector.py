@@ -72,9 +72,11 @@ class Collector(Agent):
         self.model.food_layer[x][y] = 0
         self.has_food = True
         self.model.picking_steps.append({
+            "id_collector": self.unique_id[1],
             "x": x,
             "y": y,
-            "step": self.model.schedule.steps
+            "step": self.model.schedule.steps,
+            "picked": True
         })
 
     def drop_food(self) -> None:

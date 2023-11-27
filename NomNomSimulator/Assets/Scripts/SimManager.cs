@@ -75,13 +75,10 @@ public class SimManager : MonoBehaviour
         int collector_count = 0;
         float speed = 1f;
 
-        Debug.Log("Processing step " + step.id);
-        Debug.Log("Food collected: " + collectedFood);
-
         foreach (AgentModel agent in step.agents)
         {
             if (agent.type == "collector_")
-                collector[collector_count++].Move(agent.x, agent.y, speed);
+                collector[collector_count++].Move(agent.x, agent.y, speed, step);
 
             else if (agent.type == "explorer_")
                 explorer[explorer_count++].Move(agent.x, agent.y, speed);
@@ -120,5 +117,6 @@ public class SimManager : MonoBehaviour
     {
         collectedFood++;
     }
+
 }
 

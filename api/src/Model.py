@@ -64,8 +64,8 @@ class NomNomModel(Model):
         # Model Instances
         self.spawn_food(self.num_food)
         self.place_warehouse()
-        self.spawn_agents(2, Collector, "collector_")
-        self.spawn_agents(3, Explorer, "explorer_")
+        self.spawn_agents(3, Collector, "collector_")
+        self.spawn_agents(2, Explorer, "explorer_")
 
     def spawn_agents(
         self, num_agents: int, agent_class: Agent, prefix: str = ""
