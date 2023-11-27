@@ -11,18 +11,6 @@ public class Explorer : MonoBehaviour
     private Animator animator;
 
     /// <summary>
-    /// Initializes the Explorer with an ID.
-    /// </summary>
-    /// <param name="id">The unique identifier for the explorer.</param>
-
-    public Explorer(string id)
-    {
-        this.agent = new AgentModel();
-        this.agent.id = id;
-        this.agent.type = "explorer_";
-    }
-
-    /// <summary>
     /// Initializes the animator for the explorer.
     /// </summary>
     void Awake()

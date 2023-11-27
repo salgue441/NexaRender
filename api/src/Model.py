@@ -150,13 +150,13 @@ class NomNomModel(Model):
         agent_positions = []
 
         for agent in model.schedule.agents:
-            key = agent.unique_id[0] + str(agent.unique_id[1])
             agent_positions.append(
                 {
-                    "id": key,
+                    "id": agent.unique_id[1],
                     "x": agent.pos[0],
                     "y": agent.pos[1],
                     "type": agent.unique_id[0],
+                    "has_food": agent.type == "collector" and agent.has_food,
                 }
             )
 
@@ -171,7 +171,8 @@ class NomNomModel(Model):
                 if value == 1 and (x, y) not in model.taken_food_positions:
                     new_pos = {
                         "x": x,
-                        "y": y
+                        "y": y,
+                        "id": int(f"{x}{y}")
                     }
                     food_positions.append(new_pos)
                     model.taken_food_positions.add((x, y))

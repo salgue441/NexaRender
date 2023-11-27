@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Threading;
+using System.Linq;
 
 public class SimManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
+    public GameObject[] gameObjects;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -78,7 +80,7 @@ public class SimManager : MonoBehaviour
         foreach (AgentModel agent in step.agents)
         {
             if (agent.type == "collector_")
-                collector[collector_count++].Move(agent.x, agent.y, speed, step);
+                collector[collector_count++].Move(agent.x, agent.y, speed, agent.has_food);
 
             else if (agent.type == "explorer_")
                 explorer[explorer_count++].Move(agent.x, agent.y, speed);
@@ -89,6 +91,17 @@ public class SimManager : MonoBehaviour
             foreach (FoodModel food in step.food)
             {
                 GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
+
+                Food foodScript = newFood.GetComponent<Food>();
+            
+                if (foodScript != null)
+                {
+                    // Set the custom ID
+                    int customID = food.id;
+                    foodScript.SetCustomID(customID);
+                }
+
+                gameObjects.Append(newFood);
             }
     }
 

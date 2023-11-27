@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
+
 
 /// <summary>
 /// Manages the behavior of a collector agent, including its appearance
@@ -13,6 +15,7 @@ public class Collector : MonoBehaviour
     private Animator animator;
     public GameObject waffle;
     private SimManager simManager;
+    GameObject[] gameObjects;
 
     // Constructor
     /// <summary>
@@ -48,10 +51,30 @@ public class Collector : MonoBehaviour
     /// </summary>
     /// <param name="x">The x-coordinate of the agent's destination</param>
     /// <param name="z">The z-coordinate of the agent's destination</param>
-    public void Move(int x, int z, float speed, StepModel step)
+    public void Move(int x, int z, float speed, bool hasFood)
     {
         animator.Play("Walk");
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
+
+        if (!hasFood)
+        {
+            gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
+            // print gameObjects
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if(x == gameObject.transform.position.x && z == gameObject.transform.position.z) {
+                    Destroy(gameObject);
+                    break;
+                }
+                    
+            }
+
+            waffle.SetActive(false);
+        }
+        else
+        {
+            waffle.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -91,16 +114,16 @@ public class Collector : MonoBehaviour
         transform.position = target;
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Waffle"))
-        {
-            Destroy(other.gameObject);
-            waffle.SetActive(true);
-        }
-        if (other.gameObject.CompareTag("Warehouse"))
-        {
-            waffle.SetActive(false);
-        }
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.CompareTag("Waffle") && hasFood)
+    //     {
+    //         Destroy(other.gameObject);
+    //         waffle.SetActive(true);
+    //     }
+    //     if (other.gameObject.CompareTag("Warehouse"))
+    //     {
+    //         waffle.SetActive(false);
+    //     }
+    // }
 }

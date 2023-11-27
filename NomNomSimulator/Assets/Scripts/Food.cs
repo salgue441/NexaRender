@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    void DestroyFood()
+    public int id;
+
+    public void SetCustomID(int customID)
     {
-        Destroy(gameObject);
+        id = customID;
     }
 }
