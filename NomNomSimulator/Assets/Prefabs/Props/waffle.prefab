@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5a5788db97aee9d4fa6e7b9c436e11f2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.34
+      value: 4.388
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5a5788db97aee9d4fa6e7b9c436e11f2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 5a5788db97aee9d4fa6e7b9c436e11f2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5c5fd0eba87452a4886875462903c845, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -137,5 +141,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.18223166
-  m_Center: {x: -0.000000007450581, y: 0.000000007450582, z: 0}
+  m_Radius: 0.07879792
+  m_Center: {x: 0, y: 0, z: 0}

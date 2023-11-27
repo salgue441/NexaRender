@@ -10,7 +10,6 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
-    public int collectedFood = 0;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -49,7 +48,6 @@ public class SimManager : MonoBehaviour
             foreach (AgentModel agent in firstStep.agents)
             {
                 if (agent.type == "collector_") {
-                    Debug.Log(collector[collector_count].id);
                     collector[collector_count++].Appearance(agent.x, agent.y);
                 }
 
@@ -77,11 +75,6 @@ public class SimManager : MonoBehaviour
         int collector_count = 0;
         float speed = 1f;
 
-        // if(step.id == 69) {
-        //     // stop simulation
-        //     System.Threading.Thread.Sleep(10000);
-        // }
-
         foreach (AgentModel agent in step.agents)
         {
             if (agent.type == "collector_")
@@ -95,7 +88,6 @@ public class SimManager : MonoBehaviour
         if (step.id % 5 == 0)
             foreach (FoodModel food in step.food)
             {
-                // rotate the food in x 90 degrees
                 GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
             }
     }
@@ -119,11 +111,5 @@ public class SimManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
     }
-
-    public void CollectFood()
-    {
-        collectedFood++;
-    }
-
 }
 

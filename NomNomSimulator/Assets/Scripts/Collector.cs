@@ -11,10 +11,8 @@ public class Collector : MonoBehaviour
     public AgentModel agent;
     public int id;
     private Animator animator;
-    private bool isEating = false;
     public GameObject waffle;
     private SimManager simManager;
-    private bool pickFood = false;
 
     // Constructor
     /// <summary>
@@ -52,9 +50,6 @@ public class Collector : MonoBehaviour
     /// <param name="z">The z-coordinate of the agent's destination</param>
     public void Move(int x, int z, float speed, StepModel step)
     {
-        if(step.food_picked.picked && step.food_picked.id_collector == id)
-            pickFood = true;
-
         animator.Play("Walk");
         StartCoroutine(MoveToPosition(new(x, 0.6f, z), speed));
     }
@@ -98,18 +93,14 @@ public class Collector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Waffle") && pickFood)
+        if (other.gameObject.CompareTag("Waffle"))
         {
             Destroy(other.gameObject);
             waffle.SetActive(true);
-            isEating = true;
         }
         if (other.gameObject.CompareTag("Warehouse"))
         {
             waffle.SetActive(false);
-            isEating = false;
-            simManager.CollectFood();
-            pickFood = false;
         }
     }
 }
