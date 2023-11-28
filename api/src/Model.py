@@ -172,7 +172,6 @@ class NomNomModel(Model):
                     new_pos = {
                         "x": x,
                         "y": y,
-                        "id": int(f"{x}{y}")
                     }
                     food_positions.append(new_pos)
                     model.taken_food_positions.add((x, y))
