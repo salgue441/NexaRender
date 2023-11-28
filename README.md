@@ -1,6 +1,6 @@
 # NomNomSimulator 🍔🍟
 
-![HotCakes](./readme/assets/banner.jpg)
+![HotCakes](./readme/assets/banner.png)
 
 ## 📝 Description
 
