@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Threading;
 using System.Linq;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SimManager : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
+    public TextMeshProUGUI stepText;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -48,7 +51,7 @@ public class SimManager : MonoBehaviour
 
             foreach (AgentModel agent in firstStep.agents)
             {
-                if (agent.type == "collector_") 
+                if (agent.type == "collector_")
                     collector[collector_count++].Appearance(agent.x, agent.y);
                 else
                     explorer[explorer_count++].Appearance(agent.x, agent.y);
@@ -86,17 +89,24 @@ public class SimManager : MonoBehaviour
 
         if (step.id % 5 == 0)
             foreach (FoodModel food in step.food)
-               Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
+                Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
 
-        if(step.food_picked.picked) {
+        if (step.food_picked.picked)
+        {
             GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
 
             foreach (GameObject gameObject in gameObjects)
-                if(step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z) {
+                if (step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z)
+                {
                     Destroy(gameObject);
                     break;
                 }
         }
+
+        stepText.text = "Step: " + step.id;
+
+        if (step.id == 475)
+            EndSimulation();
     }
 
     /// <summary>
@@ -117,6 +127,11 @@ public class SimManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    public void EndSimulation()
+    {
+        SceneManager.LoadScene("FinalScene");
     }
 }
 
