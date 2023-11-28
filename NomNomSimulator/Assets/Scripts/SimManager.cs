@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Threading;
+using System.Linq;
 
 public class SimManager : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class SimManager : MonoBehaviour
     public List<Collector> collector;
     public List<Explorer> explorer;
     public GameObject FoodPrefab;
-    public int collectedFood = 0;
 
     private readonly Simulation sim = APIHelper.GetSimulation();
     private Queue<StepModel> simulationSteps;
@@ -48,9 +48,8 @@ public class SimManager : MonoBehaviour
 
             foreach (AgentModel agent in firstStep.agents)
             {
-                if (agent.type == "collector_")
+                if (agent.type == "collector_") 
                     collector[collector_count++].Appearance(agent.x, agent.y);
-
                 else
                     explorer[explorer_count++].Appearance(agent.x, agent.y);
             }
@@ -75,13 +74,10 @@ public class SimManager : MonoBehaviour
         int collector_count = 0;
         float speed = 1f;
 
-        Debug.Log("Processing step " + step.id);
-        Debug.Log("Food collected: " + collectedFood);
-
         foreach (AgentModel agent in step.agents)
         {
             if (agent.type == "collector_")
-                collector[collector_count++].Move(agent.x, agent.y, speed);
+                collector[collector_count++].Move(agent.x, agent.y, speed, agent.has_food);
 
             else if (agent.type == "explorer_")
                 explorer[explorer_count++].Move(agent.x, agent.y, speed);
@@ -90,10 +86,17 @@ public class SimManager : MonoBehaviour
 
         if (step.id % 5 == 0)
             foreach (FoodModel food in step.food)
-            {
-                // rotate the food in x 90 degrees
-                GameObject newFood = Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
-            }
+               Instantiate(FoodPrefab, new Vector3(food.x, 0.64f, food.y), Quaternion.Euler(90, 0, 0));
+
+        if(step.food_picked.picked) {
+            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
+
+            foreach (GameObject gameObject in gameObjects)
+                if(step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z) {
+                    Destroy(gameObject);
+                    break;
+                }
+        }
     }
 
     /// <summary>
@@ -114,11 +117,6 @@ public class SimManager : MonoBehaviour
             }
             yield return new WaitForSeconds(1f);
         }
-    }
-
-    public void CollectFood()
-    {
-        collectedFood++;
     }
 }
 

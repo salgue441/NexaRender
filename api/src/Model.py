@@ -52,6 +52,7 @@ class NomNomModel(Model):
 
         # Layers
         self.taken_food_positions = set()
+        self.picking_steps = []
         self.init_food_layer = np.zeros((width, height), dtype=np.int8)
         self.food_layer = np.zeros((width, height), dtype=np.int8)
         self.known_food_layer = np.zeros((width, height), dtype=np.int8)
@@ -63,8 +64,8 @@ class NomNomModel(Model):
         # Model Instances
         self.spawn_food(self.num_food)
         self.place_warehouse()
-        self.spawn_agents(2, Collector, "collector_")
-        self.spawn_agents(3, Explorer, "explorer_")
+        self.spawn_agents(3, Collector, "collector_")
+        self.spawn_agents(2, Explorer, "explorer_")
 
     def spawn_agents(
         self, num_agents: int, agent_class: Agent, prefix: str = ""
@@ -149,13 +150,13 @@ class NomNomModel(Model):
         agent_positions = []
 
         for agent in model.schedule.agents:
-            key = agent.unique_id[0] + str(agent.unique_id[1])
             agent_positions.append(
                 {
-                    "id": key,
+                    "id": agent.unique_id[1],
                     "x": agent.pos[0],
                     "y": agent.pos[1],
                     "type": agent.unique_id[0],
+                    "has_food": agent.type == "collector" and agent.has_food,
                 }
             )
 
@@ -170,7 +171,7 @@ class NomNomModel(Model):
                 if value == 1 and (x, y) not in model.taken_food_positions:
                     new_pos = {
                         "x": x,
-                        "y": y
+                        "y": y,
                     }
                     food_positions.append(new_pos)
                     model.taken_food_positions.add((x, y))
