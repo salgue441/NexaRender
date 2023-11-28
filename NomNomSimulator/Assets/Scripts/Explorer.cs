@@ -35,7 +35,7 @@ public class Explorer : MonoBehaviour
     /// <param name="z">The z-coordinate of the new position.</param>
     public void Move(int x, int z, float speed)
     {
-        animator.Play("Fly");
+        animator.Play("Walk");
         StartCoroutine(MoveToPosition(new Vector3(x, 0.6f, z), speed));
     }
 
