@@ -7,6 +7,7 @@ import numpy as np
 from Explorer import Explorer
 from Collector import Collector
 
+
 class NomNomModel(Model):
     RANDOM_SEED = 12345
 
@@ -78,20 +79,21 @@ class NomNomModel(Model):
             agent_class (Agent): The class of the agent to be created.
         """
 
-        used_positions = set()
+        for i in range(num_agents):
+            attempts = 0
+            max_attempts = 10
 
-        for i, _ in enumerate(range(num_agents)):
-            while True:
+            while attempts < max_attempts:
                 x = self.random.randrange(self.grid.width)
                 y = self.random.randrange(self.grid.height)
 
-                if (x, y) not in used_positions and self.grid.is_cell_empty((x, y)):
+                if self.grid.is_cell_empty((x, y)):
                     agent = agent_class((prefix, i), self)
                     self.grid.place_agent(agent, (x, y))
                     self.schedule.add(agent)
-
-                    used_positions.add((x, y))
                     break
+
+                attempts += 1
 
     def spawn_food(self, max_food: int) -> None:
         """
@@ -102,24 +104,28 @@ class NomNomModel(Model):
             max_food (int): The maximum amount of food to be created.
         """
 
-        available_cells = [
+        suitable_cells = [
             (x, y)
             for x in range(self.grid.width)
             for y in range(self.grid.height)
-            if self.grid.is_cell_empty((x, y)) and self.food_layer[x][y] == 0 and (x, y) != self.storage_location
+            if self.grid.is_cell_empty((x, y))
+            and self.food_layer[x][y] == 0
+            and (x, y) != self.storage_location
         ]
-        num_food = min(
+
+        num_food_to_spawn = min(
             self.random.randrange(2, 6),
             max_food - self.total_food_spawned,
-            len(available_cells),
+            len(suitable_cells),
         )
 
-        for _ in range(num_food):
-            x, y = self.random.choice(available_cells)
-            self.food_layer[x][y] = 1
-            self.init_food_layer[x][y] = 1
-            self.total_food_spawned += 1
-            available_cells.remove((x, y))
+        for _ in range(num_food_to_spawn):
+            if suitable_cells:
+                x, y = self.random.choice(suitable_cells)
+                self.food_layer[x][y] = 1
+                self.init_food_layer[x][y] = 1
+                self.total_food_spawned += 1
+                suitable_cells.remove((x, y))
 
     def place_warehouse(self) -> None:
         """
@@ -146,7 +152,17 @@ class NomNomModel(Model):
         if self.schedule.steps % 5 == 0:
             self.spawn_food(self.num_food)
 
-    def get_positions(model: Model):
+    def get_positions(model: Model) -> list:
+        """
+        Get the positions of the agents in the grid
+
+        Args:
+            model (Model): The model instance to get the agent positions from
+
+        Returns:
+            list: List of agent positions
+        """
+
         agent_positions = []
 
         for agent in model.schedule.agents:
@@ -161,8 +177,17 @@ class NomNomModel(Model):
             )
 
         return agent_positions
-    
-    def get_food_positions(model: Model):
+
+    def get_food_positions(model: Model) -> list:
+        """
+        Get the positions of the food in the grid
+
+        Args:
+            model (Model): The model instance to get the food positions from
+
+        Returns:
+            list: List of food positions
+        """
         food_positions = []
 
         for x in range(model.grid.width):
@@ -175,6 +200,5 @@ class NomNomModel(Model):
                     }
                     food_positions.append(new_pos)
                     model.taken_food_positions.add((x, y))
-
 
         return food_positions

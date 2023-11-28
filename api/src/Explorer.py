@@ -1,5 +1,6 @@
 from mesa import Agent, Model
 
+
 class Explorer(Agent):
     RANDOM_SEED = 12345
 
@@ -15,17 +16,17 @@ class Explorer(Agent):
         super().__init__(unique_id, model)
         self.random.seed(self.RANDOM_SEED)
         self.type = "explorer"
-
         self.visited = set()
-        self.direction = "right"
 
     def move(self) -> None:
         """
         Moves the agent in a random walk, prioritizing unvisited cells.
         """
+
         neighbors = self.model.grid.get_neighborhood(
-                    self.pos, moore=True, include_center=False
-                )
+            self.pos, moore=True, include_center=False
+        )
+
         unvisited_neighbors = [
             cell
             for cell in neighbors
@@ -34,14 +35,17 @@ class Explorer(Agent):
 
         if unvisited_neighbors:
             new_pos = self.random.choice(unvisited_neighbors)
+
         else:
             empty_neighbors = [
                 cell for cell in neighbors if self.model.grid.is_cell_empty(cell)
             ]
+
             if empty_neighbors:
                 new_pos = self.random.choice(empty_neighbors)
+
             else:
-                return  # No move if no empty cells are available*
+                return  # No move if no empty cells are available
 
         self.model.grid.move_agent(self, new_pos)
         self.visited.add(new_pos)
@@ -52,6 +56,7 @@ class Explorer(Agent):
         """
 
         (x, y) = self.pos
+
         self.model.known_food_layer[x][y] = self.model.food_layer[x][y]
 
     def find_storage(self) -> None:
@@ -60,6 +65,7 @@ class Explorer(Agent):
         """
 
         (x, y) = self.pos
+
         if self.model.storage_location == (x, y):
             self.model.known_storage_location = (x, y)
 

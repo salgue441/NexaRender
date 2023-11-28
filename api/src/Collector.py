@@ -4,6 +4,13 @@ import numpy as np
 
 class Collector(Agent):
     def __init__(self, unique_id: int, model: Model) -> None:
+        """
+        Creates a new instance of a Collector agent
+
+        Args:
+            unique_id (int): The unique identifier of the agent
+            model (Model): The model the agent belongs to
+        """
         super().__init__(unique_id, model)
         self.random.seed(12345)
         self.has_food = False
@@ -36,6 +43,10 @@ class Collector(Agent):
             self.pos, moore=True, include_center=False, radius=1
         )
 
+        if target is None:
+            self.random_move()
+            return
+
         if self.pos == target:
             self.pick_food()
             return
@@ -47,11 +58,10 @@ class Collector(Agent):
         Moves the agent to the storage location
         """
 
-        if not self.ready_to_drop():
+        if self.ready_to_drop() == False:
             return
 
         target = self.model.known_storage_location
-
         neighborhood = self.model.grid.get_neighborhood(
             self.pos, moore=True, include_center=False, radius=1
         )
@@ -66,21 +76,23 @@ class Collector(Agent):
         """
         Pick food at the current location if the agent is ready to pick food
         """
-        
+
         (x, y) = self.pos
         self.model.known_food_layer[x][y] = 0
         self.model.food_layer[x][y] = 0
         self.has_food = True
-        self.model.picking_steps.append({
-            "id_collector": self.unique_id[1],
-            "x": x,
-            "y": y,
-            "step": self.model.schedule.steps,
-            "picked": True
-        })
+        self.model.picking_steps.append(
+            {
+                "id_collector": self.unique_id[1],
+                "x": x,
+                "y": y,
+                "step": self.model.schedule.steps,
+                "picked": True,
+            }
+        )
 
     def drop_food(self) -> None:
-        """ "
+        """
         Drop food at the storage location
         """
 
@@ -93,43 +105,39 @@ class Collector(Agent):
         Moves the agent randomly
         """
 
-        neighborhood = self.model.grid.get_neighborhood(
-            self.pos, moore=True, include_center=False, radius=1
+        new_pos = self.random.choice(
+            self.model.grid.get_neighborhood(
+                self.pos, moore=True, include_center=False, radius=1
+            )
         )
 
-        self.move(self.random.choice(neighborhood), neighborhood)
+        self.model.grid.move_agent(self, new_pos)
 
     def move(self, target: tuple, neighborhood: tuple) -> None:
         """
         Moves the agent
         """
 
-        x = target[0] - self.pos[0]
-        y = target[1] - self.pos[1]
+        pos_array = np.array(self.pos)
+        target_array = np.array(target)
+        direction = np.sign(target_array - pos_array)
 
-        x = 1 if x > 0 else -1 if x < 0 else 0
-        y = 1 if y > 0 else -1 if y < 0 else 0
+        new_pos = np.clip(
+            pos_array + direction,
+            [0, 0],
+            [self.model.grid.width - 1, self.model.grid.height - 1],
+        )
 
-        # Check if the new position is within the grid
-        if self.pos[0] + x < 0 or self.pos[0] + x >= self.model.grid.width:
-            x = 0
-        if self.pos[1] + y < 0 or self.pos[1] + y >= self.model.grid.height:
-            y = 0
-
-        # Choose a new position closer to the target
-        new_pos = (self.pos[0] + x, self.pos[1] + y)
-        cellmate = self.model.grid.get_cell_list_contents(new_pos)
-
+        new_pos = tuple(new_pos)
         max_tries = 10
-        while cellmate:
-            new_pos = self.random.choice(neighborhood)
-            cellmate = self.model.grid.get_cell_list_contents(new_pos)
-            max_tries -= 1
-            if max_tries == 0:
-                return
 
-        self.model.grid.move_agent(self, new_pos)
-        self.pos = new_pos
+        while self.model.grid.get_cell_list_contents(new_pos) and max_tries > 0:
+            new_pos = tuple(self.random.choice(neighborhood))
+            max_tries -= 1
+
+        if max_tries > 0:
+            self.model.grid.move_agent(self, new_pos)
+            self.pos = new_pos
 
     # Helpers
     def find_storage(self) -> None:
@@ -149,23 +157,12 @@ class Collector(Agent):
             None
         """
 
-        food_positions = []
+        food_positions = np.argwhere(self.model.known_food_layer == 1)
+        if not food_positions.size:
+            return None
 
-        for i in range(self.model.grid.width):
-            for j in range(self.model.grid.height):
-                if self.model.known_food_layer[i][j] == 1:
-                    food_positions.append((i, j))
-
-        closest_food = None
-        closest_distance = 1000000
-
-        for food_position in food_positions:
-            distance = self.distance_to(food_position)
-            if distance < closest_distance:
-                closest_food = food_position
-                closest_distance = distance
-
-        return closest_food
+        distances = np.sum(np.abs(food_positions - np.array(self.pos)), axis=1)
+        return tuple(food_positions[np.argmin(distances)])
 
     def distance_to(self, position: tuple) -> int:
         """
@@ -178,7 +175,7 @@ class Collector(Agent):
             int: The distance to the position
         """
 
-        return abs(self.pos[0] - position[0]) + abs(self.pos[1] - position[1])
+        return np.sum(np.abs(np.array(self.pos) - np.array(position)))
 
     def storage_found(self) -> bool:
         """
@@ -201,8 +198,11 @@ class Collector(Agent):
             bool: True if the agent is ready to pick food, False otherwise
         """
 
-        food_found = np.sum(self.model.known_food_layer)
-        return food_found > 0 and not self.has_food and self.storage_found()
+        return (
+            np.any(self.model.known_food_layer)
+            and not self.has_food
+            and self.storage_found()
+        )
 
     def ready_to_drop(self) -> bool:
         """
