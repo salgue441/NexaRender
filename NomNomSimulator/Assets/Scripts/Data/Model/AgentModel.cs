@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+/// Model for the agent.
+/// </summary>
 [Serializable]
 public class AgentModel
 {

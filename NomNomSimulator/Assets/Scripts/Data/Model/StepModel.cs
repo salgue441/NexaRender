@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Model for the step.
+/// </summary>
 [Serializable]
 public class StepModel
 {

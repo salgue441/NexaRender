@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Model for the simulation.
+/// </summary>
 [System.Serializable]
 public class Simulation
 {

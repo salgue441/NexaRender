@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+/// Model for the food.
+/// </summary>
 [Serializable]
 public class FoodModel
 {

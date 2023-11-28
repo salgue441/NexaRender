@@ -59,6 +59,9 @@ public class SimManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the simulation environment.
+    /// </summary>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -93,10 +96,12 @@ public class SimManager : MonoBehaviour
 
         if (step.food_picked.picked)
         {
-            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Waffle");
+            GameObject[] gameObjects = 
+                GameObject.FindGameObjectsWithTag("Waffle");
 
             foreach (GameObject gameObject in gameObjects)
-                if (step.food_picked.x == gameObject.transform.position.x && step.food_picked.y == gameObject.transform.position.z)
+                if (step.food_picked.x == gameObject.transform.position.x && 
+                    step.food_picked.y == gameObject.transform.position.z)
                 {
                     Destroy(gameObject);
                     break;
@@ -129,6 +134,9 @@ public class SimManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Ends the simulation and loads the final scene.
+    /// </summary>
     public void EndSimulation()
     {
         SceneManager.LoadScene("FinalScene");
